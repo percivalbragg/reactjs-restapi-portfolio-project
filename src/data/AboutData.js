@@ -1,0 +1,1 @@
+export const AboutData = 'I am a seasoned professional software developer with strong problem-solving skills. Skilled in the art of design, development and debugging of applications in a variety of languages. Successfully designed, developed and deployed mission critical Java applications, as a full-time application developer, for various enterprises';
