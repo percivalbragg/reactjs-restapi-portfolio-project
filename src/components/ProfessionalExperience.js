@@ -1,19 +1,19 @@
-import React from 'react'
-import { ExperienceData } from '../data/ExperienceData'
+import React, { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
+import axiosInstance from '../services/ExperienceService';
 
-const renderExperience = (card, index) => {
+const renderExperience = (experience, index) => {
     return (
-        <Card /*style={{ width: "18rem" }}*/ key={index} className="my-3">
+        <Card key={index} className="my-3">
             <Card.Body>
-                <Card.Title>{card.company}</Card.Title>
+                <Card.Title>{experience.company}</Card.Title>
                 <Card.Text as="div">
-                    <div>{card.title}</div>
-                    <div>{card.dates}</div>
+                    <div>{experience.title}</div>
+                    <div>{experience.dates}</div>
                     <ul>
                         {
-                            card.responsibilities.map((resp, index) => {
-                                return (<li key={index}>{resp}</li>);
+                            experience.responsibilities.map((resp, index) => {
+                                return (<li key={index}>{resp.responsibility}</li>);
                             })
                         }
                     </ul>
@@ -25,10 +25,22 @@ const renderExperience = (card, index) => {
 
 const ProfessionalExperience = () => {
 
+    const [experiences, setExperiences] = useState([]);
+
+    const getExperiences = async () => {
+        const response = await axiosInstance.get("/experiences").catch((err) => console.log("err", err));
+
+        if (response && response.data) setExperiences(response.data)
+    };
+
+    useEffect(() => {
+        getExperiences();
+    }, []);
+
     return (
         <div id='experience' className='container'>
             <h4 className='heading'>Professional Experience</h4>
-            {ExperienceData.map(renderExperience)}
+            {experiences.map(renderExperience)}
         </div>
     )
 }
